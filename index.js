@@ -1,34 +1,36 @@
-function getCharacters(done){
+function getAllCharacters(page = 1, allCharacters = []) {
+    fetch(`https://rickandmortyapi.com/api/character?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+            allCharacters = allCharacters.concat(data.results);
+            if (data.info.next) {
+                getAllCharacters(page + 1, allCharacters);
+            } else {
+                displayCharacters(allCharacters);
+            }
+        });
+}
 
-    const results = fetch("https://rickandmortyapi.com/api/character");
+function displayCharacters(characters) {
+    const main = document.querySelector("main");
+    main.innerHTML = ''; // Clear existing content
 
-    results
-    .then(response => response.json())
-    .then(data =>{
-        done(data)
+    characters.forEach(character => {
+        const article = document.createRange().createContextualFragment(/*html*/ `
+            <article>
+                <div class="image-container">
+                    <img src="${character.image}" alt="${character.name}">
+                </div>
+                <h2>${character.name}</h2>
+                <span>${character.status}</span>
+                <span>${character.gender}</span>
+                <span>${character.species}</span>
+                <span>${character.origin.name}</span>
+                <span>${character.location.name}</span>
+            </article>
+        `);
+        main.append(article);
     });
 }
 
-
-getCharacters(data => {
-    
-        data.results.forEach(personaje=>{
-
-            const article = document.createRange().createContextualFragment(/*html*/ `
-            <article>
-
-                <div class ="image-container">
-                    <img src="${personaje.image}" alt="Personaje">
-                </div>
-                <h2>${personaje.name}</h2>
-                <span>${personaje.status}</span>
-
-            </article>
-        `);
-
-        const main = document.querySelector("main");
-
-        main.append(article)
-
-    });
-});
+getAllCharacters();
