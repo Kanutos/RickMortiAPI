@@ -1,5 +1,4 @@
 let allCharacters = [];
-let allLocations = new Set();
 let currentPage = 1;
 const charactersPerPage = 20;
 
@@ -8,32 +7,29 @@ function getAllCharacters(page = 1) {
         .then(response => response.json())
         .then(data => {
             allCharacters = allCharacters.concat(data.results);
-            data.results.forEach(character => {
-                allLocations.add(character.location.name);
-            });
             if (data.info.next) {
                 getAllCharacters(page + 1);
             } else {
-                populateLocationDropdown();
+                populateLocationFilter();
                 displayCharacters(currentPage);
             }
         });
 }
 
-function populateLocationDropdown() {
-    const locationSelect = document.getElementById('location');
-    const sortedLocations = Array.from(allLocations).sort();
-    sortedLocations.forEach(location => {
+function populateLocationFilter() {
+    const locationFilter = document.getElementById('location');
+    const locations = Array.from(new Set(allCharacters.map(char => char.location.name))).sort();
+    locations.forEach(location => {
         const option = document.createElement('option');
-        option.value = location;
+        option.value = location.toLowerCase();
         option.textContent = location;
-        locationSelect.appendChild(option);
+        locationFilter.appendChild(option);
     });
 }
 
 function displayCharacters(page) {
     const main = document.querySelector("main");
-    main.innerHTML = ''; // Clear existing content
+    main.innerHTML = '';
 
     const startIndex = (page - 1) * charactersPerPage;
     const endIndex = startIndex + charactersPerPage;
@@ -68,7 +64,7 @@ function filterCharacters() {
             (name === '' || character.name.toLowerCase().includes(name)) &&
             (status === '' || character.status.toLowerCase() === status) &&
             (gender === '' || character.gender.toLowerCase() === gender) &&
-            (location === '' || character.location.name.toLowerCase() === location.toLowerCase())
+            (location === '' || character.location.name.toLowerCase() === location)
         );
     });
 
@@ -77,7 +73,7 @@ function filterCharacters() {
 
 function displayFilteredCharacters(filteredCharacters) {
     const main = document.querySelector("main");
-    main.innerHTML = ''; // Clear existing content
+    main.innerHTML = '';
 
     filteredCharacters.forEach(character => {
         const article = document.createRange().createContextualFragment(/*html*/ `

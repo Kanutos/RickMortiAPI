@@ -1,3 +1,4 @@
+/* Estilos comunes y para la página de personajes */
 * {
     margin: 0;
     padding: 0;
@@ -5,25 +6,50 @@
     font-family: 'Roboto', sans-serif;
 }
 
-
 body {
     background: linear-gradient(135deg, #6e45e2, #88d3ce);
     color: #f0f0f0;
     font-family: 'Roboto', sans-serif;
 }
 
-h1 {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 2.5em;
+nav.navbar {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+nav.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+nav.navbar li {
+    flex: 1;
+}
+
+nav.navbar a {
     color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    text-align: center;
+    transition: background 0.3s, transform 0.3s;
+    border-radius: 5px;
+}
+
+nav.navbar a:hover, nav.navbar a.active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .container {
     width: 90%;
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 20px auto;
     background: rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-radius: 10px;
@@ -104,8 +130,6 @@ article span {
     background-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
 }
-
-/* Agrega al final del archivo CSS */
 
 form#searchForm {
     display: flex;
