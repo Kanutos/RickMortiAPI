@@ -104,3 +104,38 @@ article span {
     background-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
 }
+
+/* Agrega al final del archivo CSS */
+
+form#searchForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form#searchForm input,
+form#searchForm select,
+form#searchForm button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+form#searchForm input {
+    width: 200px;
+}
+
+form#searchForm button {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+form#searchForm button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}

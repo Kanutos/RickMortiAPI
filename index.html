@@ -10,8 +10,30 @@
 </head>
 <body>
     <h1><img class="logo" src="titulo_rick_y_morty.png" alt="Logo de Rick y Morty"></h1>
-    
+
     <div class="container">
+        <form id="searchForm">
+            <input type="text" id="name" placeholder="Buscar por nombre">
+            <select id="status">
+                <option value="">Estado</option>
+                <option value="alive">Vivo</option>
+                <option value="dead">Muerto</option>
+                <option value="unknown">Desconocido</option>
+            </select>
+            <select id="gender">
+                <option value="">Género</option>
+                <option value="male">Hombre</option>
+                <option value="female">Mujer</option>
+                <option value="genderless">Sin género</option>
+                <option value="unknown">Desconocido</option>
+            </select>
+            <select id="location">
+                <option value="">Ubicación</option>
+                <!-- Las opciones se llenarán dinámicamente -->
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+        
         <main></main>
         <div class="pagination">
             <button id="prevPage">Anterior</button>
