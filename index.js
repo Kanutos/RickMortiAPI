@@ -1,6 +1,7 @@
 let allCharacters = [];
 let currentPage = 1;
 const charactersPerPage = 20;
+let filteredCharacters = [];
 
 function getAllCharacters(page = 1) {
     fetch(`https://rickandmortyapi.com/api/character?page=${page}`)
@@ -11,7 +12,7 @@ function getAllCharacters(page = 1) {
                 getAllCharacters(page + 1);
             } else {
                 populateLocationFilter();
-                displayCharacters(currentPage);
+                filterCharacters();
             }
         });
 }
@@ -27,13 +28,13 @@ function populateLocationFilter() {
     });
 }
 
-function displayCharacters(page) {
+function displayCharacters(page, characters) {
     const main = document.querySelector("main");
     main.innerHTML = '';
 
     const startIndex = (page - 1) * charactersPerPage;
     const endIndex = startIndex + charactersPerPage;
-    const charactersToDisplay = allCharacters.slice(startIndex, endIndex);
+    const charactersToDisplay = characters.slice(startIndex, endIndex);
 
     charactersToDisplay.forEach(character => {
         const article = document.createRange().createContextualFragment(/*html*/ `
@@ -59,7 +60,7 @@ function filterCharacters() {
     const gender = document.getElementById('gender').value;
     const location = document.getElementById('location').value;
 
-    const filteredCharacters = allCharacters.filter(character => {
+    filteredCharacters = allCharacters.filter(character => {
         return (
             (name === '' || character.name.toLowerCase().includes(name)) &&
             (status === '' || character.status.toLowerCase() === status) &&
@@ -68,29 +69,8 @@ function filterCharacters() {
         );
     });
 
-    displayFilteredCharacters(filteredCharacters);
-}
-
-function displayFilteredCharacters(filteredCharacters) {
-    const main = document.querySelector("main");
-    main.innerHTML = '';
-
-    filteredCharacters.forEach(character => {
-        const article = document.createRange().createContextualFragment(/*html*/ `
-            <article>
-                <div class="image-container">
-                    <img src="${character.image}" alt="${character.name}">
-                </div>
-                <h2>${character.name}</h2>
-                <span>${character.status}</span>
-                <span>${character.gender}</span>
-                <span>${character.species}</span>
-                <span>${character.origin.name}</span>
-                <span>${character.location.name}</span>
-            </article>
-        `);
-        main.append(article);
-    });
+    currentPage = 1; // Reset to first page of results
+    displayCharacters(currentPage, filteredCharacters);
 }
 
 document.getElementById('searchForm').addEventListener('submit', (event) => {
@@ -101,14 +81,14 @@ document.getElementById('searchForm').addEventListener('submit', (event) => {
 document.getElementById('prevPage').addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage--;
-        displayCharacters(currentPage);
+        displayCharacters(currentPage, filteredCharacters);
     }
 });
 
 document.getElementById('nextPage').addEventListener('click', () => {
-    if ((currentPage * charactersPerPage) < allCharacters.length) {
+    if ((currentPage * charactersPerPage) < filteredCharacters.length) {
         currentPage++;
-        displayCharacters(currentPage);
+        displayCharacters(currentPage, filteredCharacters);
     }
 });
 
