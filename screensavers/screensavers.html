@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="screensavers.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Rick and Morty Screensavers</title>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><img class="logo" src="/imagenes/titulo_rick_y_morty.png" alt="Rick y Morty"></li>
+            <li><a href="/index.html" id="nav-personajes">Personajes</a></li>
+            <li><a href="screensavers.html" id="nav-screensavers">Salvapantallas</a></li>
+            <li><a href="/tab3.html" id="nav-tab3">Pestaña 3</a></li>
+            <li><a href="/tab4.html" id="nav-tab4">Pestaña 4</a></li>
+        </ul>
+    </nav>  
+    <div class="container">
+        <h2>Salvapantallas de Rick y Morty</h2>
+        <div class="screensavers-grid">
+            <!-- Las imágenes de los salvapantallas se cargarán aquí -->
+        </div>
+    </div>
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Descargar Salvapantallas</h2>
+            <p>Elige el nombre del archivo:</p>
+            <input type="text" id="fileName" placeholder="Nombre del archivo">
+            <button id="confirmDownload">Descargar</button>
+        </div>
+    </div>
+    <script src="navbar/navbar.js"></script>
+    <script src="/screensavers/screensavers.js"></script>
+</body>
+</html>
