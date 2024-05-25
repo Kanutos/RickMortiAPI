@@ -22,31 +22,19 @@
     <div class="container">
         <h2>Salvapantallas de Rick y Morty</h2>
         <div class="screensavers-grid">
-            <div class="screensaver">
-                <img src="https://fondosmil.co/fondo/27333.jpg" alt="Salvapantallas 1">
-                <button><i class="fas fa-download"></i> Descargar</button>
-            </div>
-            <div class="screensaver">
-                <img src="https://fondosmil.co/fondo/27334.jpg" alt="Salvapantallas 2">
-                <button><i class="fas fa-download"></i> Descargar</button>
-            </div>
-            <div class="screensaver">
-                <img src="https://fondosmil.co/fondo/27335.jpg" alt="Salvapantallas 3">
-                <button><i class="fas fa-download"></i> Descargar</button>
-            </div>
-            <div class="screensaver">
-                <img src="https://fondosmil.co/fondo/27335.jpg" alt="Salvapantallas 3">
-                <button><i class="fas fa-download"></i> Descargar</button>
-            </div>
-            <div class="screensaver">
-                <img src="https://fondosmil.co/fondo/27340.jpg" alt="Salvapantallas 3">
-                <button><i class="fas fa-download"></i> Descargar</button>
-            </div>
-            <div class="screensaver">
-                <img src="https://fondosmil.co/fondo/27342.jpg" alt="Salvapantallas 3">
-                <button><i class="fas fa-download"></i> Descargar</button>
-            </div>
+            <!-- Las imágenes de los salvapantallas se cargarán aquí -->
         </div>
     </div>
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Descargar Salvapantallas</h2>
+            <p>Elige el nombre del archivo:</p>
+            <input type="text" id="fileName" placeholder="Nombre del archivo">
+            <button id="confirmDownload">Descargar</button>
+        </div>
+    </div>
+    <script src="navbar.js"></script>
+    <script src="screensavers.js"></script>
 </body>
 </html>

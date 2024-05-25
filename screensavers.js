@@ -1,9 +1,14 @@
+let selectedImageUrl = '';
+
 function loadScreensavers() {
     const screensavers = [
-        { url: 'https://example.com/screen1.jpg', name: 'Screen 1' },
-        { url: 'https://example.com/screen2.jpg', name: 'Screen 2' },
-        { url: 'https://example.com/screen3.jpg', name: 'Screen 3' },
-        { url: 'https://example.com/screen4.jpg', name: 'Screen 4' }
+        { url: 'https://fondosmil.co/fondo/27333.jpg', name: 'Rick_and_Morty_Screen1.jpg' },
+        { url: 'https://fondosmil.co/fondo/27334.jpg', name: 'Rick_and_Morty_Screen2.jpg' },
+        { url: 'https://fondosmil.co/fondo/27335.jpg', name: 'Rick_and_Morty_Screen3.jpg' },
+        { url: 'https://fondosmil.co/fondo/27340.jpg', name: 'Rick_and_Morty_Screen4.jpg' },
+        { url: 'https://fondosmil.co/fondo/27342.jpg', name: 'Rick_and_Morty_Screen5.jpg' },
+        //Prueba localmente funciona
+        { src: 'titulo_rick_y_morty.png', name: 'Rick_and_Morty_Screen5.jpg' }
     ];
 
     const screensaversGrid = document.querySelector('.screensavers-grid');
@@ -11,13 +16,44 @@ function loadScreensavers() {
         const screensaverElement = document.createRange().createContextualFragment(/*html*/ `
             <div class="screensaver">
                 <img src="${screensaver.url}" alt="${screensaver.name}">
-                <a href="${screensaver.url}" download="${screensaver.name}">
-                    <button><i class="fas fa-download"></i> Descargar</button>
-                </a>
+                <button onclick="openDownloadModal('${screensaver.url}')">
+                    <i class="fas fa-download"></i> Descargar
+                </button>
             </div>
         `);
-        screensaversGrid.append(screensaverElement);
+        screensaversGrid.appendChild(screensaverElement);
     });
 }
 
+function openDownloadModal(url) {
+    selectedImageUrl = url;
+    document.getElementById('downloadModal').style.display = 'flex';
+}
+
+function closeDownloadModal() {
+    document.getElementById('downloadModal').style.display = 'none';
+}
+
+function downloadImage(url, filename) {
+    fetch(url)
+        .then(response => response.blob())
+        .then(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .catch(console.error);
+}
+
 document.addEventListener('DOMContentLoaded', loadScreensavers);
+
+document.getElementById('confirmDownload').addEventListener('click', () => {
+    const fileName = document.getElementById('fileName').value || 'descarga';
+    downloadImage(selectedImageUrl, fileName);
+    closeDownloadModal();
+});
+
+document.querySelector('.close').addEventListener('click', closeDownloadModal);
