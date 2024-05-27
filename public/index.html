@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Registro y Login</title>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="register.html" id="nav-register">Registrarse</a></li>
+            <li><a href="login.html" id="nav-login">Iniciar Sesión</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div id="home" class="content">
+            <h2>Bienvenido</h2>
+            <p>Por favor, regístrese o inicie sesión.</p>
+        </div>
+        <div id="register" class="content" style="display: none;">
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+        <div id="login" class="content" style="display: none;">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+    <script src="/public/"></script>
+</body>
+</html>
