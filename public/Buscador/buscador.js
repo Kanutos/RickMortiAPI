@@ -69,7 +69,7 @@ function filterCharacters() {
         );
     });
 
-    currentPage = 1; // Reset to first page of results
+    currentPage = 1;
     displayCharacters(currentPage, filteredCharacters);
 }
 
