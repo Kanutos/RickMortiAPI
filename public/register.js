@@ -5,18 +5,22 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, email, password }),
-    });
+    try {
+        const response = await fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, email, password }),
+        });
 
-    if (response.ok) {
-        alert('Usuario registrado exitosamente');
-    } else {
-        const error = await response.text();
-        alert('Error: ' + error);
+        if (response.ok) {
+            alert('Usuario registrado exitosamente');
+        } else {
+            const error = await response.text();
+            alert('Error: ' + error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
     }
 });
