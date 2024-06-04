@@ -3,7 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const authRoutes = require('./routes/auth'); // Asegúrate de que la ruta sea correcta
+const authRoutes = require('./routes/auth');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -41,7 +41,13 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
-// Usa las rutas de autenticación, aqui coge las rutas para las peticiones IMPORTANTE************
+
+app.get('/episodios', (req, res) => { // Nueva ruta para los episodios
+    res.sendFile(path.join(__dirname, 'public', 'Episodios/episodios.html'));
+});
+
+
+// Usa las rutas de autenticación
 app.use('/auth', authRoutes);
 
 app.listen(port, () => {

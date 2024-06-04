@@ -274,4 +274,54 @@ form#searchForm button:hover {
     background-color: #6e45e2;
     transform: translateY(-3.4px); 
 }
+/*Estilos Episodios */
+.episode {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px 0;
+    position: relative;
+}
 
+.episode-info {
+    flex: 1;
+}
+
+.episode-characters {
+    flex: 1;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+.carousel-item {
+    flex: 0 0 33.33%; /*Para mostrar 3 personajes*/
+    box-sizing: border-box;
+    padding: 5px;
+    text-align: center;
+}
+
+.carousel-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.carousel-item p {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
