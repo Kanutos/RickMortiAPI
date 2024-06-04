@@ -276,16 +276,41 @@ form#searchForm button:hover {
 }
 /*Episodios inicial*/
 .episode {
+    display: flex;
+    justify-content: space-between;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px 0;
 }
 
-.episode h2 {
-    margin: 0;
-    font-size: 1.5em;
+.episode-info {
+    flex: 1;
 }
 
-.episode p {
-    margin: 5px 0;
+.episode-characters {
+    flex: 1;
+    text-align: center;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.carousel-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.carousel-item p {
+    margin-top: 5px;
 }
