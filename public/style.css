@@ -274,4 +274,18 @@ form#searchForm button:hover {
     background-color: #6e45e2;
     transform: translateY(-3.4px); 
 }
+/*Episodios inicial*/
+.episode {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}
 
+.episode h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.episode p {
+    margin: 5px 0;
+}
