@@ -24,8 +24,12 @@ function getEpisodeCharacters(episode) {
 }
 
 function createCharacterCarousel(characters) {
+    const carouselContainer = document.createElement('div');
+    carouselContainer.className = 'carousel-container';
+
     const carousel = document.createElement('div');
     carousel.className = 'carousel';
+    carouselContainer.appendChild(carousel);
 
     characters.forEach(character => {
         const characterDiv = document.createElement('div');
@@ -37,7 +41,17 @@ function createCharacterCarousel(characters) {
         carousel.appendChild(characterDiv);
     });
 
-    return carousel;
+    return carouselContainer;
+}
+
+function startCarousel(carousel, itemWidth, itemsToShow) {
+    let currentIndex = 0;
+    const totalItems = carousel.children.length;
+
+    setInterval(() => {
+        currentIndex = (currentIndex + itemsToShow) % totalItems;
+        carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+    }, 4000); // Rotate every 4 seconds
 }
 
 function displayEpisodes(page) {
@@ -65,8 +79,13 @@ function displayEpisodes(page) {
         episodesList.appendChild(episodeElement);
 
         getEpisodeCharacters(episode).then(characters => {
-            const carousel = createCharacterCarousel(characters);
-            episodeElement.querySelector('.episode-characters').appendChild(carousel);
+            const carouselContainer = createCharacterCarousel(characters);
+            episodeElement.querySelector('.episode-characters').appendChild(carouselContainer);
+
+            // Start carousel
+            const carousel = carouselContainer.querySelector('.carousel');
+            const itemWidth = carouselContainer.querySelector('.carousel-item').offsetWidth;
+            startCarousel(carousel, itemWidth, 3); // 3 items to show
         });
     });
 }

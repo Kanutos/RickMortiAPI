@@ -274,13 +274,14 @@ form#searchForm button:hover {
     background-color: #6e45e2;
     transform: translateY(-3.4px); 
 }
-/*Episodios inicial*/
+/*Estilos Episodios */
 .episode {
     display: flex;
     justify-content: space-between;
     border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 5px;
+    margin: 5px 0;
+    position: relative;
 }
 
 .episode-info {
@@ -290,17 +291,26 @@ form#searchForm button:hover {
 .episode-characters {
     flex: 1;
     text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .carousel {
     display: flex;
-    overflow-x: auto;
-    padding: 10px 0;
+    transition: transform 0.5s ease;
+    will-change: transform;
 }
 
 .carousel-item {
-    flex: 0 0 auto;
-    margin-right: 10px;
+    flex: 0 0 33.33%; /*Para mostrar 3 personajes*/
+    box-sizing: border-box;
+    padding: 5px;
     text-align: center;
 }
 
@@ -313,4 +323,5 @@ form#searchForm button:hover {
 
 .carousel-item p {
     margin-top: 5px;
+    font-size: 0.9em;
 }
