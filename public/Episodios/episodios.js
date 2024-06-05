@@ -35,7 +35,7 @@ function createCharacterCarousel(characters) {
         const characterDiv = document.createElement('div');
         characterDiv.className = 'carousel-item';
         characterDiv.innerHTML = `
-            <img src="${character.image}" alt="${character.name}">
+            <img src="${character.image}" alt="${character.name}" data-character-id="${character.id}">
             <p>${character.name}</p>
         `;
         carousel.appendChild(characterDiv);
@@ -86,9 +86,44 @@ function displayEpisodes(page) {
             const carousel = carouselContainer.querySelector('.carousel');
             const itemWidth = carouselContainer.querySelector('.carousel-item').offsetWidth;
             startCarousel(carousel, itemWidth, 3); // 3 items to show
+
+            // Add click event for character images
+            carouselContainer.querySelectorAll('.carousel-item img').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    const characterId = e.target.dataset.characterId;
+                    showCharacterDetails(characterId);
+                });
+            });
         });
     });
 }
+
+function showCharacterDetails(characterId) {
+    fetch(`https://rickandmortyapi.com/api/character/${characterId}`)
+        .then(response => response.json())
+        .then(character => {
+            const characterDetails = document.getElementById('characterDetails');
+            characterDetails.innerHTML = `
+                <div class="character-card">
+                    <img src="${character.image}" alt="${character.name}">
+                    <div class="character-info">
+                        <h2>${character.name}</h2>
+                        <p><strong>Especie:</strong> ${character.species}</p>
+                        <p><strong>Género:</strong> ${character.gender}</p>
+                        <p><strong>Origen:</strong> ${character.origin.name}</p>
+                        <p><strong>Estado:</strong> ${character.status}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('characterModal').style.display = 'block';
+        })
+        .catch(error => console.error('Error fetching character details:', error));
+}
+
+document.querySelector('.close').addEventListener('click', () => {
+    document.getElementById('characterModal').style.display = 'none';
+});
+
 
 document.getElementById('prevPage').addEventListener('click', () => {
     if (currentPage > 1) {
