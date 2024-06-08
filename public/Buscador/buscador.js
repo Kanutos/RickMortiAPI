@@ -40,7 +40,7 @@ function displayCharacters(page, characters) {
         const article = document.createRange().createContextualFragment(`
             <article>
                 <div class="image-container">
-                    <img src="${character.image}" alt="${character.name}">
+                    <img src="${character.image}" alt="${character.name}" data-index="${allCharacters.indexOf(character)}">
                 </div>
                 <h2>${character.name}</h2>
                 <span>${character.status}</span>
@@ -52,7 +52,43 @@ function displayCharacters(page, characters) {
         `);
         main.append(article);
     });
+
+    // Add event listeners for character images
+    document.querySelectorAll('.image-container img').forEach(img => {
+        img.addEventListener('click', event => {
+            const index = event.target.getAttribute('data-index');
+            showCharacterDetails(index);
+        });
+    });
 }
+
+function showCharacterDetails(index) {
+    const character = allCharacters[index];
+    document.getElementById('characterImage').src = character.image;
+    document.getElementById('characterName').textContent = character.name;
+    document.getElementById('characterSpecies').textContent = character.species;
+    document.getElementById('characterStatus').textContent = character.status;
+    document.getElementById('characterGender').textContent = character.gender;
+    document.getElementById('characterOrigin').textContent = character.origin.name;
+    
+    // Show the modal
+    const modal = document.getElementById('characterModal');
+    modal.style.display = "block";
+}
+
+// Close the modal when the user clicks on <span> (x)
+document.querySelector('.close').addEventListener('click', () => {
+    const modal = document.getElementById('characterModal');
+    modal.style.display = "none";
+});
+
+// Close the modal when the user clicks anywhere outside of the modal
+window.addEventListener('click', event => {
+    const modal = document.getElementById('characterModal');
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
 
 function filterCharacters() {
     const name = document.getElementById('name').value.toLowerCase();

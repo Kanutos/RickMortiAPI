@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.navbar a');
+
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+
+    const seasonLinks = document.querySelectorAll('.dropdown-content a');
+    seasonLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const season = event.target.dataset.season;
+            displayEpisodesBySeason(season);
+        });
+    });
+
+    getAllEpisodes();
+});
+
 let allEpisodes = [];
 let currentPage = 1;
 const episodesPerPage = 20;
@@ -35,7 +57,7 @@ function createCharacterCarousel(characters) {
         const characterDiv = document.createElement('div');
         characterDiv.className = 'carousel-item';
         characterDiv.innerHTML = `
-            <img src="${character.image}" alt="${character.name}">
+            <img src="${character.image}" alt="${character.name}" data-character-id="${character.id}">
             <p>${character.name}</p>
         `;
         carousel.appendChild(characterDiv);
@@ -51,7 +73,7 @@ function startCarousel(carousel, itemWidth, itemsToShow) {
     setInterval(() => {
         currentIndex = (currentIndex + itemsToShow) % totalItems;
         carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-    }, 4000); // Rotate every 4 seconds
+    }, 4000); 
 }
 
 function displayEpisodes(page) {
@@ -82,26 +104,83 @@ function displayEpisodes(page) {
             const carouselContainer = createCharacterCarousel(characters);
             episodeElement.querySelector('.episode-characters').appendChild(carouselContainer);
 
-            // Start carousel
             const carousel = carouselContainer.querySelector('.carousel');
             const itemWidth = carouselContainer.querySelector('.carousel-item').offsetWidth;
-            startCarousel(carousel, itemWidth, 3); // 3 items to show
+            startCarousel(carousel, itemWidth, 3);
+
+            carouselContainer.querySelectorAll('.carousel-item img').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    const characterId = e.target.dataset.characterId;
+                    showCharacterDetails(characterId);
+                });
+            });
         });
     });
 }
 
-document.getElementById('prevPage').addEventListener('click', () => {
-    if (currentPage > 1) {
-        currentPage--;
-        displayEpisodes(currentPage);
-    }
+function displayEpisodesBySeason(season) {
+    const episodesList = document.getElementById('episodes-list');
+    episodesList.innerHTML = '';
+
+    const seasonEpisodes = allEpisodes.filter(episode => episode.episode.includes(`S${String(season).padStart(2, '0')}`));
+    seasonEpisodes.forEach(episode => {
+        const episodeElement = document.createElement('div');
+        episodeElement.className = 'episode';
+        episodeElement.innerHTML = `
+            <div class="episode-info">
+                <h2>${episode.name}</h2>
+                <p>Temporada: ${episode.episode.split('E')[0].replace('S', 'T')}</p>
+                <p>Episodio: ${episode.episode.split('E')[1]}</p>
+                <p>Fecha de emisión: ${episode.air_date}</p>
+            </div>
+            <div class="episode-characters">
+                <h3>Personajes</h3>
+            </div>
+        `;
+        episodesList.appendChild(episodeElement);
+
+        getEpisodeCharacters(episode).then(characters => {
+            const carouselContainer = createCharacterCarousel(characters);
+            episodeElement.querySelector('.episode-characters').appendChild(carouselContainer);
+
+            const carousel = carouselContainer.querySelector('.carousel');
+            const itemWidth = carouselContainer.querySelector('.carousel-item').offsetWidth;
+            startCarousel(carousel, itemWidth, 3); 
+
+            carouselContainer.querySelectorAll('.carousel-item img').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    const characterId = e.target.dataset.characterId;
+                    showCharacterDetails(characterId);
+                });
+            });
+        });
+    });
+}
+
+function showCharacterDetails(characterId) {
+    fetch(`https://rickandmortyapi.com/api/character/${characterId}`)
+        .then(response => response.json())
+        .then(character => {
+            const characterDetails = document.getElementById('characterDetails');
+            characterDetails.innerHTML = `
+                <div class="character-card">
+                    <img src="${character.image}" alt="${character.name}">
+                    <div class="character-info">
+                        <h2>${character.name}</h2>
+                        <p><strong>Especie:</strong> ${character.species}</p>
+                        <p><strong>Género:</strong> ${character.gender}</p>
+                        <p><strong>Origen:</strong> ${character.origin.name}</p>
+                        <p><strong>Estado:</strong> ${character.status}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('characterModal').style.display = 'block';
+        })
+        .catch(error => console.error('Error fetching character details:', error));
+}
+
+document.querySelector('.close').addEventListener('click', () => {
+    document.getElementById('characterModal').style.display = 'none';
 });
 
-document.getElementById('nextPage').addEventListener('click', () => {
-    if ((currentPage * episodesPerPage) < allEpisodes.length) {
-        currentPage++;
-        displayEpisodes(currentPage);
-    }
-});
-
-getAllEpisodes();
+document.getElementById('prevPage');
