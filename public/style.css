@@ -91,10 +91,6 @@ nav.navbar a:hover, nav.navbar a.active {
     display: block;
 }
 
-.dropdown:hover .dropbtn {
-    background-color: #6e45e2;
-}
-
 .container {
     width: 90%;
     max-width: 1400px;
