@@ -1,55 +1,49 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
+const User = require('../models/User'); // Asegúrate de que la ruta al modelo sea correcta
 const router = express.Router();
 
-// Registro de usuario
+const jwtSecret = 'your_jwt_secret_key'; // Cambia esto por una clave secreta segura
+
+// Ruta de registro
 router.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
+
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, email, password: hashedPassword });
-        await user.save();
+        const newUser = new User({ username, email, password });
+        await newUser.save();
+
         res.status(201).send('Usuario registrado exitosamente');
     } catch (error) {
-        res.status(400).send(error.message);
+        console.error('Error al registrar el usuario:', error);
+        res.status(500).send('Error al registrar el usuario');
     }
 });
 
-// Inicio de sesión
+// Ruta de inicio de sesión
 router.post('/login', async (req, res) => {
-    const { username, password } = req.body; // Usando username
+    const { username, password } = req.body;
+
     try {
-        const user = await User.findOne({ username }); // Buscando por username
+        const user = await User.findOne({ username });
         if (!user) {
             return res.status(400).send('Usuario no encontrado');
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
+        console.log('Contraseña almacenada:', user.password);
+
+        // Compara la contraseña introducida con la almacenada directamente
+        if (password !== user.password) {
             return res.status(400).send('Contraseña incorrecta');
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // Genera un token JWT
+        const token = jwt.sign({ id: user._id, username: user.username }, jwtSecret, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
-// Obtener detalles del usuario por email
-router.get('/user/:email', async (req, res) => {
-    const { email } = req.params;
-    try {
-        const user = await User.findOne({ email }).select('-password'); // Excluye la contraseña del resultado
-        if (!user) {
-            return res.status(404).send('Usuario no encontrado');
-        }
-        res.json(user);
-    } catch (error) {
-        res.status(400).send(error.message);
+        console.error('Error al iniciar sesión:', error);
+        res.status(500).send('Error al iniciar sesión');
     }
 });
 

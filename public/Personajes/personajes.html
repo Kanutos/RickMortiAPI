@@ -12,11 +12,22 @@
         <ul>
             <li><img class="logo" src="/imagenes/titulo_rick_y_morty.png" alt="Rick y Morty"></li>
             <li><a href="/Buscador/buscador.html" id="nav-personajes">Buscador</a></li>
-            <li><a href="/screensavers/screensavers.html" id="nav-screensavers">Salvapantallas</a></li>
-            <li><a href="/Episodios/episodios.html" id="nav-episodios">Capitulos</a></li>
-            <li><a href="/Personajes/personajes.html" id="nav-tab4">Personajes?</a></li>
+            <li>
+                <div class="dropdown">
+                    <a href="#" id="nav-episodios">Capítulos</a>
+                    <div class="dropdown-content">
+                        <a href="#" data-season="1">Temporada 1</a>
+                        <a href="#" data-season="2">Temporada 2</a>
+                        <a href="#" data-season="3">Temporada 3</a>
+                        <a href="#" data-season="4">Temporada 4</a>
+                        <a href="#" data-season="5">Temporada 5</a>
+                    </div>
+                </div>
+            </li>
+            <li><a href="/Personajes/personajes.html" id="nav-tab4">Personajes</a></li>
         </ul>
-    </nav>    
+    </nav>
+    
     <div class="container">
         <main>
             <p>Posible Idea, aqui coloca los 10-20 personajes principales y añade una descripcion de cada personaje y asi practicas estructuras
