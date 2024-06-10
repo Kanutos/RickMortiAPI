@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentSeason = event.target.dataset.season;
             currentPage = 1; // Reset to the first page
             displayEpisodesBySeason(currentSeason, currentPage);
+            togglePagination(false); // Hide pagination when a season is selected
         });
     });
 
@@ -57,6 +58,7 @@ function getAllEpisodes(page = 1) {
                 getAllEpisodes(page + 1);
             } else {
                 displayEpisodes(currentPage);
+                togglePagination(true); // Show pagination when displaying all episodes
             }
         })
         .catch(error => console.error('Error fetching episodes:', error));
@@ -183,6 +185,15 @@ function displayEpisodesBySeason(season, page) {
             });
         });
     });
+}
+
+function togglePagination(show) {
+    const pagination = document.getElementById('pagination');
+    if (show) {
+        pagination.style.display = 'block';
+    } else {
+        pagination.style.display = 'none';
+    }
 }
 
 function showCharacterDetails(characterId) {
