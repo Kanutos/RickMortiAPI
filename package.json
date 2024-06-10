@@ -17,7 +17,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongod": "^2.0.0",
     "mongoose": "^5.13.22",
-    "picocolors": "^1.0.1"
+    "picocolors": "^1.0.1",
+    "standard": "^17.1.0"
   },
   "keywords": [],
   "repository": {

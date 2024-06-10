@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.navbar a');
+    let currentSeason = null;
 
     navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPath) {
@@ -12,12 +13,35 @@ document.addEventListener('DOMContentLoaded', () => {
     seasonLinks.forEach(link => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
-            const season = event.target.dataset.season;
-            displayEpisodesBySeason(season);
+            currentSeason = event.target.dataset.season;
+            currentPage = 1; // Reset to the first page
+            displayEpisodesBySeason(currentSeason, currentPage);
         });
     });
 
     getAllEpisodes();
+
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            if (currentSeason) {
+                displayEpisodesBySeason(currentSeason, currentPage);
+            } else {
+                displayEpisodes(currentPage);
+            }
+        }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', () => {
+        if (currentPage * episodesPerPage < allEpisodes.length) {
+            currentPage++;
+            if (currentSeason) {
+                displayEpisodesBySeason(currentSeason, currentPage);
+            } else {
+                displayEpisodes(currentPage);
+            }
+        }
+    });
 });
 
 let allEpisodes = [];
@@ -118,12 +142,16 @@ function displayEpisodes(page) {
     });
 }
 
-function displayEpisodesBySeason(season) {
+function displayEpisodesBySeason(season, page) {
     const episodesList = document.getElementById('episodes-list');
     episodesList.innerHTML = '';
 
     const seasonEpisodes = allEpisodes.filter(episode => episode.episode.includes(`S${String(season).padStart(2, '0')}`));
-    seasonEpisodes.forEach(episode => {
+    const startIndex = (page - 1) * episodesPerPage;
+    const endIndex = startIndex + episodesPerPage;
+    const episodesToDisplay = seasonEpisodes.slice(startIndex, endIndex);
+
+    episodesToDisplay.forEach(episode => {
         const episodeElement = document.createElement('div');
         episodeElement.className = 'episode';
         episodeElement.innerHTML = `
@@ -182,5 +210,3 @@ function showCharacterDetails(characterId) {
 document.querySelector('.close').addEventListener('click', () => {
     document.getElementById('characterModal').style.display = 'none';
 });
-
-document.getElementById('prevPage');
