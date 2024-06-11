@@ -1,30 +1,58 @@
 let selectedImageUrl = '';
 
-function loadScreensavers() {
+function checkImageFormats(basePath, formats) {
+    return new Promise((resolve, reject) => {
+        let found = false;
+        formats.forEach((format, index) => {
+            const img = new Image();
+            img.src = `${basePath}${format}`;
+            img.onload = () => {
+                if (!found) {
+                    found = true;
+                    resolve(`${basePath}${format}`);
+                }
+            };
+            img.onerror = () => {
+                if (index === formats.length - 1 && !found) {
+                    reject(new Error('No valid image format found.'));
+                }
+            };
+        });
+    });
+}
+
+async function loadScreensavers() {
     const screensavers = [
-        { url: '/imagenes/salvapantallas1', name: 'Rick_and_Morty_Screen1' },
-        { url: '/imagenes/salvapantallas2', name: 'Rick_and_Morty_Screen2' },
-        { url: '/imagenes/salvapantallas3', name: 'Rick_and_Morty_Screen3' },
-        { url: '/imagenes/salvapantallas4', name: 'Rick_and_Morty_Screen4' },
-        { url: '/imagenes/salvapantallas5', name: 'Rick_and_Morty_Screen5' },
-        { url: '/imagenes/salvapantallas6', name: 'Rick_and_Morty_Screen6' },
-        { url: '/imagenes/salvapantallas7', name: 'Rick_and_Morty_Screen7' },
-        { url: '/imagenes/salvapantallas8', name: 'Rick_and_Morty_Screen8' },
-        { url: '/imagenes/salvapantallas9', name: 'Rick_and_Morty_Screen9' },
+        { basePath: '/imagenes/salvapantallas1', name: 'Rick_and_Morty_Screen1' },
+        { basePath: '/imagenes/salvapantallas2', name: 'Rick_and_Morty_Screen2' },
+        { basePath: '/imagenes/salvapantallas3', name: 'Rick_and_Morty_Screen3' },
+        { basePath: '/imagenes/salvapantallas4', name: 'Rick_and_Morty_Screen4' },
+        { basePath: '/imagenes/salvapantallas5', name: 'Rick_and_Morty_Screen5' },
+        { basePath: '/imagenes/salvapantallas6', name: 'Rick_and_Morty_Screen6' },
+        { basePath: '/imagenes/salvapantallas7', name: 'Rick_and_Morty_Screen7' },
+        { basePath: '/imagenes/salvapantallas8', name: 'Rick_and_Morty_Screen8' },
+        { basePath: '/imagenes/salvapantallas9', name: 'Rick_and_Morty_Screen9' },
     ];
 
+    const formats = ['.jpg', '.png', '.jpeg', '.gif'];
     const screensaversGrid = document.querySelector('.screensavers-grid');
-    screensavers.forEach(screensaver => {
-        const screensaverElement = document.createRange().createContextualFragment(/*html*/ `
-            <div class="screensaver">
-                <img src="${screensaver.url}" alt="${screensaver.name}">
-                <button onclick="openDownloadModal('${screensaver.url}', '${screensaver.name}')">
-                    <i class="fas fa-download"></i> Descargar
-                </button>
-            </div>
-        `);
-        screensaversGrid.appendChild(screensaverElement);
-    });
+
+    for (const screensaver of screensavers) {
+        try {
+            const imageUrl = await checkImageFormats(screensaver.basePath, formats);
+            const screensaverElement = document.createRange().createContextualFragment(/*html*/ `
+                <div class="screensaver">
+                    <img src="${imageUrl}" alt="${screensaver.name}">
+                    <button onclick="openDownloadModal('${imageUrl}', '${screensaver.name}')">
+                        <i class="fas fa-download"></i> Descargar
+                    </button>
+                </div>
+            `);
+            screensaversGrid.appendChild(screensaverElement);
+        } catch (error) {
+            console.error(`Failed to load image for ${screensaver.name}:`, error);
+        }
+    }
 }
 
 function openDownloadModal(url, name) {
