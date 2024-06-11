@@ -2,12 +2,15 @@ let selectedImageUrl = '';
 
 function loadScreensavers() {
     const screensavers = [
-        { url: 'https://fondosmil.co/fondo/27333.jpg', name: 'Rick_and_Morty_Screen1.jpg' },
-        { url: 'https://fondosmil.co/fondo/27334.jpg', name: 'Rick_and_Morty_Screen2.jpg' },
-        { url: 'https://fondosmil.co/fondo/27335.jpg', name: 'Rick_and_Morty_Screen3.jpg' },
-        { url: 'https://fondosmil.co/fondo/27340.jpg', name: 'Rick_and_Morty_Screen4.jpg' },
-        { url: 'https://fondosmil.co/fondo/27342.jpg', name: 'Rick_and_Morty_Screen5.jpg' },
-        { src: 'titulo_rick_y_morty.png', name: 'Rick_and_Morty_Screen6.jpg' } // Prueba localmente funciona
+        { url: '/imagenes/salvapantallas1', name: 'Rick_and_Morty_Screen1' },
+        { url: '/imagenes/salvapantallas2', name: 'Rick_and_Morty_Screen2' },
+        { url: '/imagenes/salvapantallas3', name: 'Rick_and_Morty_Screen3' },
+        { url: '/imagenes/salvapantallas4', name: 'Rick_and_Morty_Screen4' },
+        { url: '/imagenes/salvapantallas5', name: 'Rick_and_Morty_Screen5' },
+        { url: '/imagenes/salvapantallas6', name: 'Rick_and_Morty_Screen6' },
+        { url: '/imagenes/salvapantallas7', name: 'Rick_and_Morty_Screen7' },
+        { url: '/imagenes/salvapantallas8', name: 'Rick_and_Morty_Screen8' },
+        { url: '/imagenes/salvapantallas9', name: 'Rick_and_Morty_Screen9' },
     ];
 
     const screensaversGrid = document.querySelector('.screensavers-grid');
@@ -35,10 +38,7 @@ function closeDownloadModal() {
 }
 
 function downloadImage(url, filename) {
-    // Uso del proxy para evitar problemas de CORS
-    const proxyUrl = `/proxy?url=${encodeURIComponent(url)}`;
-
-    fetch(proxyUrl)
+    fetch(url, { mode: 'no-cors' })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok. Status: ${response.status}, StatusText: ${response.statusText}`);
