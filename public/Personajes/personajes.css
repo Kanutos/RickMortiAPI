@@ -1,0 +1,76 @@
+/* styles.css */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.character {
+    display: flex;
+    align-items: center;
+    margin: 40px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s ease;
+}
+
+.character.left .text {
+    order: 1;
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+}
+
+.character.left .image {
+    order: 2;
+    transform: translateX(100%);
+    transition: transform 0.7s ease;
+}
+
+.character.right .text {
+    order: 2;
+    transform: translateX(100%);
+    transition: transform 0.7s ease;
+}
+
+.character.right .image {
+    order: 1;
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+}
+
+.text {
+    flex: 1;
+    padding: 20px;
+}
+
+.image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+}
+
+.character.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.character.visible .text,
+.character.visible .image {
+    transform: translateX(0);
+}
