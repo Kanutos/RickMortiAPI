@@ -1,12 +1,12 @@
 {
-  "name": "rick-and-morty-project",
+  "name": "rick_and_morty.app",
   "version": "1.0.0",
   "description": "Proyecto de registro y login para usuarios de Rick y Morty",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Ignacio Bielsa Aranda",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -16,7 +16,17 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongod": "^2.0.0",
-    "mongoose": "^5.13.22"
+    "mongoose": "^5.13.22",
+    "picocolors": "^1.0.1",
+    "standard": "^17.1.0"
   },
-  "keywords": []
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kanutos/RickMortiAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kanutos/RickMortiAPI/issues"
+  },
+  "homepage": "https://github.com/Kanutos/RickMortiAPI#readme"
 }

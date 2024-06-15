@@ -1,22 +1,24 @@
 let selectedImageUrl = '';
 
-function loadScreensavers() {
-    const screensavers = [
-        { url: 'https://fondosmil.co/fondo/27333.jpg', name: 'Rick_and_Morty_Screen1.jpg' },
-        { url: 'https://fondosmil.co/fondo/27334.jpg', name: 'Rick_and_Morty_Screen2.jpg' },
-        { url: 'https://fondosmil.co/fondo/27335.jpg', name: 'Rick_and_Morty_Screen3.jpg' },
-        { url: 'https://fondosmil.co/fondo/27340.jpg', name: 'Rick_and_Morty_Screen4.jpg' },
-        { url: 'https://fondosmil.co/fondo/27342.jpg', name: 'Rick_and_Morty_Screen5.jpg' },
-        //Prueba localmente funciona
-        { src: 'titulo_rick_y_morty.png', name: 'Rick_and_Morty_Screen5.jpg' }
-    ];
+function fetchScreensavers() {
+    return fetch('/api/screensavers')
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching screensavers:', error);
+            return [];
+        });
+}
 
+async function loadScreensavers() {
+    const images = await fetchScreensavers();
     const screensaversGrid = document.querySelector('.screensavers-grid');
-    screensavers.forEach(screensaver => {
+
+    images.forEach((image) => {
+        const imageUrl = `/imagenes/${image}`;
         const screensaverElement = document.createRange().createContextualFragment(/*html*/ `
             <div class="screensaver">
-                <img src="${screensaver.url}" alt="${screensaver.name}">
-                <button onclick="openDownloadModal('${screensaver.url}')">
+                <img src="${imageUrl}" alt="${image}">
+                <button onclick="openDownloadModal('${imageUrl}', '${image}')">
                     <i class="fas fa-download"></i> Descargar
                 </button>
             </div>
@@ -25,8 +27,9 @@ function loadScreensavers() {
     });
 }
 
-function openDownloadModal(url) {
+function openDownloadModal(url, name) {
     selectedImageUrl = url;
+    document.getElementById('fileName').value = name; // Set default filename
     document.getElementById('downloadModal').style.display = 'flex';
 }
 
@@ -36,7 +39,12 @@ function closeDownloadModal() {
 
 function downloadImage(url, filename) {
     fetch(url)
-        .then(response => response.blob())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}, StatusText: ${response.statusText}`);
+            }
+            return response.blob();
+        })
         .then(blob => {
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -45,7 +53,10 @@ function downloadImage(url, filename) {
             link.click();
             document.body.removeChild(link);
         })
-        .catch(console.error);
+        .catch(error => {
+            console.error('Error during the fetch:', error);
+            alert(`Error al descargar la imagen. Por favor, intenta de nuevo. Detalles: ${error.message}`);
+        });
 }
 
 document.addEventListener('DOMContentLoaded', loadScreensavers);
