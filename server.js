@@ -1,9 +1,11 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const screensaversFolder = path.join(__dirname, 'public/imagenes');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -21,6 +23,17 @@ mongoose.connect(dbURI, {
 .then(() => console.log('Conectado a MongoDB'))
 .catch(err => console.error('Error al conectar a MongoDB:', err));
 
+app.use(express.static('public'));
+
+app.get('/api/screensavers', (req, res) => {
+    fs.readdir(screensaversFolder, (err, files) => {
+        if (err) {
+            return res.status(500).json({ error: 'Unable to scan directory' });
+        }
+        const images = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file));
+        res.json(images);
+    });
+});
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
