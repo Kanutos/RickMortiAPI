@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
             currentSeason = event.target.dataset.season;
-            currentPage = 1; // Reset to the first page
+            currentPage = 1;
             displayEpisodesBySeason(currentSeason, currentPage);
-            togglePagination(false); // Hide pagination when a season is selected
+            togglePagination(false); 
         });
     });
 
@@ -58,7 +58,7 @@ function getAllEpisodes(page = 1) {
                 getAllEpisodes(page + 1);
             } else {
                 displayEpisodes(currentPage);
-                togglePagination(true); // Show pagination when displaying all episodes
+                togglePagination(true); 
             }
         })
         .catch(error => console.error('Error fetching episodes:', error));

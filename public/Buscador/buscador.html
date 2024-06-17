@@ -5,30 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/navbar/navbar.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Rick and Morty Characters</title>
 </head>
 <body>
-    <nav class="navbar">
-        <ul>
-            <li><img class="logo" src="/imagenes/titulo_rick_y_morty.png" alt="Rick y Morty"></li>
-            <li><a href="/Buscador/buscador.html" id="nav-personajes">Buscador</a></li>
-            <li><a href="/screensavers/screensavers.html" id="nav-screensavers">Salvapantallas</a></li>
-            <li>
-                <div class="dropdown">
-                    <a href="/Episodios/episodios.html" id="nav-episodios">Capítulos</a>
-                    <div class="dropdown-content">
-                        <a href="/Episodios/episodios.html" data-season="1">Temporada 1</a>
-                        <a href="/Episodios/episodios.html" data-season="2">Temporada 2</a>
-                        <a href="/Episodios/episodios.html" data-season="3">Temporada 3</a>
-                        <a href="/Episodios/episodios.html" data-season="4">Temporada 4</a>
-                        <a href="/Episodios/episodios.html" data-season="5">Temporada 5</a>
-                    </div>
-                </div>
-            </li>
-            <li><a href="/Personajes/personajes.html" id="nav-tab4">Personajes</a></li>
-        </ul>
-    </nav>   
+    <div id="navbar-container"></div> <!-- Contenedor para el navbar --> 
     <div class="container">
         <form id="searchForm">
             <input type="text" id="name" placeholder="Buscar por nombre">
@@ -74,7 +56,6 @@
             </div>
         </div>
     </div>
-
     <script src="/Buscador/buscador.js"></script>
     <script src="/navbar/navbar.js"></script>
 </body>
