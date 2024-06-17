@@ -43,17 +43,16 @@ function displayCharacters(page, characters) {
                     <img src="${character.image}" alt="${character.name}" data-index="${allCharacters.indexOf(character)}">
                 </div>
                 <h2>${character.name}</h2>
-                <span>${character.status}</span>
-                <span>${character.gender}</span>
-                <span>${character.species}</span>
-                <span>${character.origin.name}</span>
-                <span>${character.location.name}</span>
+                <span><b>estado:</b>${character.status}</span>
+                <span>genero:${character.gender}</span>
+                <span>especie:${character.species}</span>
+                <span>origen:${character.origin.name}</span>
+                <span>localizacion: ${character.location.name}</span>
             </article>
         `);
         main.append(article);
     });
 
-    // Add event listeners for character images
     document.querySelectorAll('.image-container img').forEach(img => {
         img.addEventListener('click', event => {
             const index = event.target.getAttribute('data-index');

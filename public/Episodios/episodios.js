@@ -1,32 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.navbar a');
-    let currentSeason = null;
-
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-            link.classList.add('active');
-        }
-    });
-
-    const seasonLinks = document.querySelectorAll('.dropdown-content a');
-    seasonLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            currentSeason = event.target.dataset.season;
-            currentPage = 1; // Reset to the first page
-            displayEpisodesBySeason(currentSeason, currentPage);
-            togglePagination(false); // Hide pagination when a season is selected
+    const urlParams = new URLSearchParams(window.location.search);
+    const season = urlParams.get('season');
+    if (season) {
+        currentPage = 1;
+        getAllEpisodes().then(() => {
+            displayEpisodesBySeason(season, currentPage);
+            togglePagination(false);
         });
-    });
-
-    getAllEpisodes();
+    } else {
+        getAllEpisodes().then(() => {
+            displayEpisodes(currentPage);
+            togglePagination(true);
+        });
+    }
 
     document.getElementById('prevPage').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            if (currentSeason) {
-                displayEpisodesBySeason(currentSeason, currentPage);
+            if (season) {
+                displayEpisodesBySeason(season, currentPage);
             } else {
                 displayEpisodes(currentPage);
             }
@@ -36,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nextPage').addEventListener('click', () => {
         if (currentPage * episodesPerPage < allEpisodes.length) {
             currentPage++;
-            if (currentSeason) {
-                displayEpisodesBySeason(currentSeason, currentPage);
+            if (season) {
+                displayEpisodesBySeason(season, currentPage);
             } else {
                 displayEpisodes(currentPage);
             }
@@ -50,15 +42,12 @@ let currentPage = 1;
 const episodesPerPage = 20;
 
 function getAllEpisodes(page = 1) {
-    fetch(`https://rickandmortyapi.com/api/episode?page=${page}`)
+    return fetch(`https://rickandmortyapi.com/api/episode?page=${page}`)
         .then(response => response.json())
         .then(data => {
             allEpisodes = allEpisodes.concat(data.results);
             if (data.info.next) {
-                getAllEpisodes(page + 1);
-            } else {
-                displayEpisodes(currentPage);
-                togglePagination(true); // Show pagination when displaying all episodes
+                return getAllEpisodes(page + 1);
             }
         })
         .catch(error => console.error('Error fetching episodes:', error));
@@ -99,7 +88,7 @@ function startCarousel(carousel, itemWidth, itemsToShow) {
     setInterval(() => {
         currentIndex = (currentIndex + itemsToShow) % totalItems;
         carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-    }, 4000); 
+    }, 4000);
 }
 
 function displayEpisodes(page) {
@@ -175,7 +164,7 @@ function displayEpisodesBySeason(season, page) {
 
             const carousel = carouselContainer.querySelector('.carousel');
             const itemWidth = carouselContainer.querySelector('.carousel-item').offsetWidth;
-            startCarousel(carousel, itemWidth, 3); 
+            startCarousel(carousel, itemWidth, 3);
 
             carouselContainer.querySelectorAll('.carousel-item img').forEach(img => {
                 img.addEventListener('click', (e) => {
@@ -220,4 +209,86 @@ function showCharacterDetails(characterId) {
 
 document.querySelector('.close').addEventListener('click', () => {
     document.getElementById('characterModal').style.display = 'none';
+});
+
+// Archivo episodios.js
+
+document.addEventListener("DOMContentLoaded", function () {
+    const episodesList = document.getElementById('episodes-list');
+    const pagination = document.getElementById('pagination');
+    const prevPageBtn = document.getElementById('prevPage');
+    const nextPageBtn = document.getElementById('nextPage');
+
+    let currentPage = 1;
+
+    function fetchEpisodes(page) {
+        fetch(`https://rickandmortyapi.com/api/episode?page=${page}`)
+            .then(response => response.json())
+            .then(data => {
+                renderEpisodes(data.results);
+                handlePagination(data.info);
+            })
+            .catch(error => console.error(error));
+    }
+
+    function renderEpisodes(episodes) {
+        episodesList.innerHTML = '';
+        episodes.forEach(episode => {
+            const episodeElement = document.createElement('div');
+            episodeElement.className = 'episode';
+            episodeElement.innerHTML = `
+                <div class="episode-info">
+                    <h2>${episode.name}</h2>
+                    <p><strong>Episode:</strong> ${episode.episode}</p>
+                    <p><strong>Air Date:</strong> ${episode.air_date}</p>
+                </div>
+                <div class="episode-characters">
+                    <div class="carousel-container">
+                        <div class="carousel" id="carousel-${episode.id}">
+                            ${episode.characters.slice(0, 4).map(characterUrl => `
+                                <div class="carousel-item">
+                                    <img src="#" data-url="${characterUrl}" alt="Character Image">
+                                    <p>Loading...</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            episodesList.appendChild(episodeElement);
+            fetchCharacters(episode.characters.slice(0, 4), episode.id);
+        });
+    }
+
+    function fetchCharacters(characterUrls, episodeId) {
+        characterUrls.forEach(url => {
+            fetch(url)
+                .then(response => response.json())
+                .then(character => {
+                    const carouselItem = document.querySelector(`img[data-url="${url}"]`).parentElement;
+                    carouselItem.querySelector('img').src = character.image;
+                    carouselItem.querySelector('p').textContent = character.name;
+                })
+                .catch(error => console.error(error));
+        });
+    }
+
+    function handlePagination(info) {
+        prevPageBtn.disabled = !info.prev;
+        nextPageBtn.disabled = !info.next;
+    }
+
+    prevPageBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchEpisodes(currentPage);
+        }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+        currentPage++;
+        fetchEpisodes(currentPage);
+    });
+
+    fetchEpisodes(currentPage);
 });

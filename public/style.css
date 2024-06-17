@@ -9,91 +9,10 @@ body {
     background: linear-gradient(135deg, #6e45e2, #88d3ce);
     color: #f0f0f0;
 }
-/*Estilos para la barra de navegacion*/
-nav.navbar {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-nav.navbar .logo {
-    height: 100px;
-    margin-right: 20px;
-}
-
-nav.navbar ul {
-    list-style: none;
-    display: flex;
-    flex: 1;
-    text-align: center;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0; 
-}
-
-nav.navbar li {
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    flex: 1;
-    text-align: center;
-}
-
-nav.navbar a {
-    color: #fff;
-    text-decoration: none;
-    display: inline-block;
-    padding: 20px; 
-    transition: background 0.3s, transform 0.3s;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 18px; 
-}
-
-nav.navbar a:hover, nav.navbar a.active {
-    background: #6e45e2;
-    transform: translateY(-2px);
-    padding: 20px; 
-    text-align: center;
-}
-
-/*Estilos dropdown*/
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.dropdown-content a:hover {
-    background-color: #6e45e2;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
 
 .container {
-    width: 90%;
-    max-width: 1400px;
+    width: 95%;
+    max-width: 1600px;
     margin: 20px auto;
     background: rgba(0, 0, 0, 0.5);
     padding: 20px;
@@ -162,7 +81,8 @@ article span {
     margin: 5px 0;
     color: #bbb;
 }
-/*Estilos para lo botones de paginacion*/
+
+/* Estilos para los botones de paginación */
 .pagination {
     text-align: center;
     margin: 20px 0;
@@ -176,12 +96,11 @@ article span {
 }  
 
 .pagination button:hover {
-    background-color:  #6e45e2;
+    background-color: #6e45e2;
     transform: translateY(-2px);
 }
 
-
-/*Estilos para el  buscador*/
+/* Estilos para el buscador */
 form#searchForm {
     display: flex;
     justify-content: center;
@@ -215,8 +134,7 @@ form#searchForm button:hover {
     transform: translateY(-2px);
 }
 
-
-/* Estilos para el contenedor dela pagina de login */
+/* Estilos para el contenedor de la página de login */
 .login-container {
     display: flex;
     justify-content: center;
@@ -315,59 +233,8 @@ form#searchForm button:hover {
     background-color: #6e45e2;
     transform: translateY(-3.4px); 
 }
-/*Estilos Episodios */
-.episode {
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin: 5px 0;
-    position: relative;
-}
 
-.episode-info {
-    flex: 1;
-}
-
-.episode-characters {
-    flex: 1;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.carousel-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease;
-    will-change: transform;
-}
-
-.carousel-item {
-    flex: 0 0 33.33%; /*Para mostrar 3 personajes*/
-    box-sizing: border-box;
-    padding: 5px;
-    text-align: center;
-}
-
-.carousel-item img {
-    width: 100px;
-    height: 100px;
-    object-fit:contain;
-    border-radius: 50%;
-}
-
-.carousel-item p {
-    margin-top: 5px;
-    font-size: 0.9em;
-}
-
-/* Estilos Modales */
+/* Estilos para modales */
 .modal {
     display: none;
     position: fixed; 
@@ -416,7 +283,7 @@ form#searchForm button:hover {
     animation: shine 2s infinite;
     position: relative; 
 }
-/*Prueba a redondear las imagenes o darles algun efecto*/
+
 .character-card img {
     width: 360px;
     border-radius: 50%;
