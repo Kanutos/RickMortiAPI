@@ -46,12 +46,12 @@ app.get('/buscador', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Buscador/buscador.html'));
 });
 
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Login/login.html'));
 });
 
-app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+app.get('/register.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Register/register.html'));
 });
 
 
