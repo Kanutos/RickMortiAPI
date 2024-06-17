@@ -7,7 +7,7 @@ const router = express.Router();
 const jwtSecret = 'your_jwt_secret_key'; // Cambia esto por una clave secreta segura
 
 // Ruta de registro
-router.post('/register', async (req, res) => {
+router.post('/Register/register', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
 });
 
 // Ruta de inicio de sesión
-router.post('/login', async (req, res) => {
+router.post('/Login/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
