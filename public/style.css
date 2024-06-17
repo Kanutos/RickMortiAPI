@@ -11,8 +11,8 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 1400px;
+    width: 95%;
+    max-width: 1600px;
     margin: 20px auto;
     background: rgba(0, 0, 0, 0.5);
     padding: 20px;
@@ -81,7 +81,8 @@ article span {
     margin: 5px 0;
     color: #bbb;
 }
-/*Estilos para lo botones de paginacion*/
+
+/* Estilos para los botones de paginación */
 .pagination {
     text-align: center;
     margin: 20px 0;
@@ -95,12 +96,11 @@ article span {
 }  
 
 .pagination button:hover {
-    background-color:  #6e45e2;
+    background-color: #6e45e2;
     transform: translateY(-2px);
 }
 
-
-/*Estilos para el  buscador*/
+/* Estilos para el buscador */
 form#searchForm {
     display: flex;
     justify-content: center;
@@ -134,8 +134,7 @@ form#searchForm button:hover {
     transform: translateY(-2px);
 }
 
-
-/* Estilos para el contenedor dela pagina de login */
+/* Estilos para el contenedor de la página de login */
 .login-container {
     display: flex;
     justify-content: center;
@@ -234,59 +233,8 @@ form#searchForm button:hover {
     background-color: #6e45e2;
     transform: translateY(-3.4px); 
 }
-/*Estilos Episodios */
-.episode {
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin: 5px 0;
-    position: relative;
-}
 
-.episode-info {
-    flex: 1;
-}
-
-.episode-characters {
-    flex: 1;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.carousel-container {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease;
-    will-change: transform;
-}
-
-.carousel-item {
-    flex: 0 0 33.33%; /*Para mostrar 3 personajes*/
-    box-sizing: border-box;
-    padding: 5px;
-    text-align: center;
-}
-
-.carousel-item img {
-    width: 100px;
-    height: 100px;
-    object-fit:contain;
-    border-radius: 50%;
-}
-
-.carousel-item p {
-    margin-top: 5px;
-    font-size: 0.9em;
-}
-
-/* Estilos Modales */
+/* Estilos para modales */
 .modal {
     display: none;
     position: fixed; 
@@ -335,7 +283,7 @@ form#searchForm button:hover {
     animation: shine 2s infinite;
     position: relative; 
 }
-/*Prueba a redondear las imagenes o darles algun efecto*/
+
 .character-card img {
     width: 360px;
     border-radius: 50%;
