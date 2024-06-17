@@ -1,4 +1,3 @@
-/*Funcion para cargar el navbar en los htmls*/
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/navbar/navbar.html')
         .then(response => response.text())
@@ -12,6 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     link.classList.add('active');
                 }
             });
+
+            initializeDropdown();
         });
 });
 
+function initializeDropdown() {
+    const seasonLinks = document.querySelectorAll('.dropdown-content a');
+    seasonLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const season = event.target.dataset.season;
+            window.location.href = `/Episodios/episodios.html?season=${season}`;
+        });
+    });
+}

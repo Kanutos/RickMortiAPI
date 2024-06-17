@@ -1,32 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.navbar a');
-    let currentSeason = null;
-
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-            link.classList.add('active');
-        }
-    });
-
-    const seasonLinks = document.querySelectorAll('.dropdown-content a');
-    seasonLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            currentSeason = event.target.dataset.season;
-            currentPage = 1;
-            displayEpisodesBySeason(currentSeason, currentPage);
-            togglePagination(false); 
+    const urlParams = new URLSearchParams(window.location.search);
+    const season = urlParams.get('season');
+    if (season) {
+        currentPage = 1;
+        getAllEpisodes().then(() => {
+            displayEpisodesBySeason(season, currentPage);
+            togglePagination(false);
         });
-    });
-
-    getAllEpisodes();
+    } else {
+        getAllEpisodes().then(() => {
+            displayEpisodes(currentPage);
+            togglePagination(true);
+        });
+    }
 
     document.getElementById('prevPage').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            if (currentSeason) {
-                displayEpisodesBySeason(currentSeason, currentPage);
+            if (season) {
+                displayEpisodesBySeason(season, currentPage);
             } else {
                 displayEpisodes(currentPage);
             }
@@ -36,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nextPage').addEventListener('click', () => {
         if (currentPage * episodesPerPage < allEpisodes.length) {
             currentPage++;
-            if (currentSeason) {
-                displayEpisodesBySeason(currentSeason, currentPage);
+            if (season) {
+                displayEpisodesBySeason(season, currentPage);
             } else {
                 displayEpisodes(currentPage);
             }
@@ -50,15 +42,12 @@ let currentPage = 1;
 const episodesPerPage = 20;
 
 function getAllEpisodes(page = 1) {
-    fetch(`https://rickandmortyapi.com/api/episode?page=${page}`)
+    return fetch(`https://rickandmortyapi.com/api/episode?page=${page}`)
         .then(response => response.json())
         .then(data => {
             allEpisodes = allEpisodes.concat(data.results);
             if (data.info.next) {
-                getAllEpisodes(page + 1);
-            } else {
-                displayEpisodes(currentPage);
-                togglePagination(true); 
+                return getAllEpisodes(page + 1);
             }
         })
         .catch(error => console.error('Error fetching episodes:', error));
@@ -99,7 +88,7 @@ function startCarousel(carousel, itemWidth, itemsToShow) {
     setInterval(() => {
         currentIndex = (currentIndex + itemsToShow) % totalItems;
         carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
-    }, 4000); 
+    }, 4000);
 }
 
 function displayEpisodes(page) {
@@ -175,7 +164,7 @@ function displayEpisodesBySeason(season, page) {
 
             const carousel = carouselContainer.querySelector('.carousel');
             const itemWidth = carouselContainer.querySelector('.carousel-item').offsetWidth;
-            startCarousel(carousel, itemWidth, 3); 
+            startCarousel(carousel, itemWidth, 3);
 
             carouselContainer.querySelectorAll('.carousel-item img').forEach(img => {
                 img.addEventListener('click', (e) => {
