@@ -43,11 +43,11 @@ function displayCharacters(page, characters) {
                     <img src="${character.image}" alt="${character.name}" data-index="${allCharacters.indexOf(character)}">
                 </div>
                 <h2>${character.name}</h2>
-                <span><b>estado:</b>${character.status}</span>
-                <span>genero:${character.gender}</span>
-                <span>especie:${character.species}</span>
-                <span>origen:${character.origin.name}</span>
-                <span>localizacion: ${character.location.name}</span>
+                <span><b>Estado:</b> ${character.status}</span>
+                <span><b>Genero:</b> ${character.gender}</span>
+                <span><b>Especie:</b> ${character.species}</span>
+                <span><b>origen:</b> ${character.origin.name}</span>
+                <span><b>localizacion:</b> ${character.location.name}</span>
             </article>
         `);
         main.append(article);

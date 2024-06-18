@@ -2,15 +2,15 @@
 .episode {
     display: flex;
     justify-content: space-between;
-    border: 1px solid rgb(186, 255, 0);
+    border: 1px solid rgb(85, 0, 255);
     padding: 10px;
     margin: 10px 0;
     position: relative;
     font-size: 1.2em;
     font-weight: 700;
-    background: rgba(108, 2, 125, 0.5);
+    background: #040e49;
     border-radius: 10px;
-    color: rgb(174, 166, 174);
+    color: rgb(207, 196, 207);
 }
 
 .episode-info {
